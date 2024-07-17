@@ -11,42 +11,22 @@ Currently only support keyboard and mouse.
 use bevy_simple_camera_controller::free_camera::{FreeCameraPlugin, CameraTag};
 use bevy::prelude::*;
 
+#[path = "utils.rs"]
+mod utils;
+
 fn main() {
     let mut app = App::new();
 
         app.add_plugins((
             DefaultPlugins,
-            FreeCameraPlugin // Add camera plugin
+            FreeCameraPlugin::default() // 1: Add camera plugin
         ));
 
         app.add_systems(Startup, (
-            setup_camera, // Example setup function
+            FreeCameraPlugin::create_camera, // 2: Creates a default Camera3dBundle (This is optionally, you can do this manually)
             utils::setup_scene
-        ))
-        .run();
-}
-
-fn setup_camera(mut commands: Commands) {
-    // camera
-    commands.spawn((Camera3dBundle {
-        transform: Transform::from_xyz(-2.5, 4.5, 9.0).looking_at(Vec3::ZERO, Vec3::Y),
-        ..default()
-    },
-        CameraTag
-    ));
-}
-
-pub(crate) fn setup_scene(
-    mut commands: Commands,
-    mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<StandardMaterial>>,
-) {
-    // cube
-    commands.spawn(PbrBundle {
-        mesh: meshes.add(Cuboid::new(1.0, 1.0, 1.0)),
-        material: materials.add(Color::srgb_u8(124, 144, 255)),
-        transform: Transform::from_xyz(0.0, 0.5, 0.0),
-        ..default()
-    });
+        ));
+    
+        app.run();
 }
 ```
