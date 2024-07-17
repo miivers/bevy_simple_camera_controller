@@ -3,6 +3,10 @@ name = "bevy_simple_camera_controller"
 license = "MIT"
 version = "0.1.0"
 edition = "2021"
+description = "Minimalistic camera controller"
+readme = "README.md"
+repository = "https://github.com/miivers/bevy_simple_camera_controller"
+keywords = ["bevy", "camera"]
 
 [dependencies]
 bevy = "0.14.0"
