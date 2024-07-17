@@ -58,9 +58,11 @@ fn update(
     time: Res<Time<Real>>,
 ) {
 
-    // We use CursorGrabMode::Locked to signal the user has clicked and given focus to the window
-    if q_windows.single_mut().cursor.grab_mode != CursorGrabMode::Locked {
-        return;
+    if properties.grab_mouse {
+        // We use CursorGrabMode::Locked to signal the user has clicked and given focus to the window
+        if q_windows.single_mut().cursor.grab_mode != CursorGrabMode::Locked {
+            return;
+        }
     }
 
     for mut transform in &mut query {
