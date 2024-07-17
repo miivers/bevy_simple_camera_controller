@@ -1,12 +1,13 @@
-use bevy::prelude::{Camera3dBundle, Commands, EventReader, KeyCode, Query, Res, Transform, With};
-use bevy::app::{Plugin, App, PreUpdate, Startup};
+use bevy::prelude::{Camera3dBundle, Commands, EventReader, KeyCode, Query, Res, Transform, Window, With};
+use bevy::app::{Plugin, App, Startup, FixedUpdate};
 use bevy::ecs::component::Component;
 use bevy::input::mouse::MouseMotion;
 use bevy::input::ButtonInput;
 use bevy::math::{Quat, Vec3};
 use bevy::time::{Real, Time};
 use bevy::utils::default;
-use crate::camera_common::grab_cursor;
+use bevy::window::{CursorGrabMode, PrimaryWindow};
+use crate::camera_common::{capture_cursor, uncapture_cursor};
 use crate::camera_properties::CameraProperties;
 use crate::key_binding::{CameraAction, CameraKeyBindings};
 
@@ -31,11 +32,12 @@ impl FreeCameraPlugin {
 
 impl Plugin for FreeCameraPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(PreUpdate, update);
+        app.add_systems(FixedUpdate, update);
         app.add_systems(Startup, register_key_bindings);
 
         if self.properties.grab_mouse {
-            app.add_systems(Startup, grab_cursor);
+            app.add_systems(FixedUpdate, capture_cursor);
+            app.add_systems(FixedUpdate, uncapture_cursor);
         }
 
         app.insert_resource(self.properties.clone());
@@ -48,12 +50,19 @@ fn register_key_bindings(mut commands: Commands) {
 
 fn update(
     mut query: Query<&mut Transform, With<CameraTag>>,
+    mut q_windows: Query<&mut Window, With<PrimaryWindow>>,
     mut mouse_motion_events: EventReader<MouseMotion>,
     key_bindings: Res<CameraKeyBindings>,
     keys: Res<ButtonInput<KeyCode>>,
     properties: Res<CameraProperties>,
     time: Res<Time<Real>>,
 ) {
+
+    // We use CursorGrabMode::Locked to signal the user has clicked and given focus to the window
+    if q_windows.single_mut().cursor.grab_mode != CursorGrabMode::Locked {
+        return;
+    }
+
     for mut transform in &mut query {
         let mut movement_vector = Vec3::ZERO;
 
