@@ -8,7 +8,7 @@ An attempt to make it easy to add camera controller to a bevy project. The main 
 Currently only support keyboard and mouse.
   
 ```rust
-use bevy_simple_camera_controller::free_camera::{FreeCameraPlugin, CameraTag};
+use bevy_simple_camera_controller::free_camera::*;
 use bevy::prelude::*;
 
 #[path = "utils.rs"]

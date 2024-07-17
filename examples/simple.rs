@@ -1,8 +1,9 @@
-use bevy_simple_camera_controller::free_camera::{FreeCameraPlugin};
-use bevy::prelude::*;
+mod common;
 
-#[path = "utils.rs"]
-mod utils;
+use bevy_simple_camera_controller::free_camera::*;
+use bevy::prelude::*;
+use common::utils;
+
 
 fn main() {
     let mut app = App::new();
