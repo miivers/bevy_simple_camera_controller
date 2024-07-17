@@ -1,13 +1,20 @@
 use bevy::prelude::*;
 use bevy_simple_camera_controller::*;
+#[path = "utils.rs"]
+mod utils;
 
 fn main() {
-    App::new()
-        .add_plugins((
+    let mut app = App::new();
+
+        app.add_plugins((
             DefaultPlugins,
-            FreeCameraPlugin
+            FreeCameraPlugin // Add camera plugin
+        ));
+
+        app.add_systems(Startup, (
+            setup_camera, // Example setup function
+            utils::setup_scene
         ))
-        .add_systems(Startup, (setup_camera, setup_scene))
         .run();
 }
 
@@ -19,37 +26,4 @@ fn setup_camera(mut commands: Commands) {
     },
         CameraTag
     ));
-}
-
-/// set up a simple 3D scene
-fn setup_scene(
-    mut commands: Commands,
-    mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<StandardMaterial>>,
-) {
-    // circular base
-    commands.spawn(PbrBundle {
-        mesh: meshes.add(Circle::new(4.0)),
-        material: materials.add(Color::WHITE),
-        transform: Transform::from_rotation(Quat::from_rotation_x(-std::f32::consts::FRAC_PI_2)),
-        ..default()
-    });
-
-    // cube
-    commands.spawn(PbrBundle {
-        mesh: meshes.add(Cuboid::new(1.0, 1.0, 1.0)),
-        material: materials.add(Color::srgb_u8(124, 144, 255)),
-        transform: Transform::from_xyz(0.0, 0.5, 0.0),
-        ..default()
-    });
-
-    // light
-    commands.spawn(PointLightBundle {
-        point_light: PointLight {
-            shadows_enabled: true,
-            ..default()
-        },
-        transform: Transform::from_xyz(4.0, 8.0, 4.0),
-        ..default()
-    });
 }
