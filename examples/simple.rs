@@ -1,4 +1,4 @@
-use bevy_simple_camera_controller::free_camera::{FreeCameraPlugin, CameraTag};
+use bevy_simple_camera_controller::free_camera::{FreeCameraPlugin};
 use bevy::prelude::*;
 
 #[path = "utils.rs"]

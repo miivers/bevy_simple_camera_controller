@@ -6,6 +6,7 @@ use bevy::input::ButtonInput;
 use bevy::math::{Quat, Vec3};
 use bevy::time::{Real, Time};
 use bevy::utils::default;
+use crate::camera_common::grab_cursor;
 use crate::camera_properties::CameraProperties;
 use crate::key_binding::{CameraAction, CameraKeyBindings};
 
@@ -32,6 +33,10 @@ impl Plugin for FreeCameraPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(PreUpdate, update);
         app.add_systems(Startup, register_key_bindings);
+
+        if self.properties.grab_mouse {
+            app.add_systems(Startup, grab_cursor);
+        }
 
         app.insert_resource(self.properties.clone());
     }
