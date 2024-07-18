@@ -11,7 +11,7 @@ pub enum CameraAction {
     MoveDown
 }
 
-#[derive(Resource)]
+#[derive(Resource, Clone)]
 pub struct CameraKeyBindings {
     pub bindings: HashMap<CameraAction, KeyCode>,
 }

@@ -1,18 +1,14 @@
 use bevy::prelude::{Camera3dBundle, Commands, EventReader, KeyCode, Query, Res, Transform, Window, With};
-use bevy::app::{Plugin, App, Startup, FixedUpdate};
-use bevy::ecs::component::Component;
+use bevy::app::{Plugin, App, FixedUpdate};
 use bevy::input::mouse::MouseMotion;
 use bevy::input::ButtonInput;
 use bevy::math::{Quat, Vec3};
 use bevy::time::{Real, Time};
 use bevy::utils::default;
 use bevy::window::{CursorGrabMode, PrimaryWindow};
-use crate::camera_common::{capture_cursor, uncapture_cursor};
+use crate::camera_common::{CameraTag, capture_cursor, disable_capture_cursor};
 use crate::camera_properties::CameraProperties;
 use crate::key_binding::{CameraAction, CameraKeyBindings};
-
-#[derive(Component)]
-pub struct CameraTag;
 
 #[derive(Default)]
 pub struct FreeCameraPlugin {
@@ -33,19 +29,15 @@ impl FreeCameraPlugin {
 impl Plugin for FreeCameraPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(FixedUpdate, update);
-        app.add_systems(Startup, register_key_bindings);
 
         if self.properties.grab_mouse {
             app.add_systems(FixedUpdate, capture_cursor);
-            app.add_systems(FixedUpdate, uncapture_cursor);
+            app.add_systems(FixedUpdate, disable_capture_cursor);
         }
 
         app.insert_resource(self.properties.clone());
+        app.insert_resource(self.properties.key_bindings.clone());
     }
-}
-
-fn register_key_bindings(mut commands: Commands) {
-    commands.insert_resource(CameraKeyBindings::default());
 }
 
 fn update(

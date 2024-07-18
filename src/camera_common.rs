@@ -3,6 +3,9 @@ use bevy::input::mouse::MouseButtonInput;
 use bevy::prelude::*;
 use bevy::window::{CursorGrabMode, PrimaryWindow};
 
+#[derive(Component)]
+pub struct CameraTag;
+
 pub fn capture_cursor(
     mut q_windows: Query<&mut Window, With<PrimaryWindow>>,
     mut mouse_button_event: EventReader<MouseButtonInput>,
@@ -24,7 +27,7 @@ pub fn capture_cursor(
     }
 }
 
-pub fn uncapture_cursor(
+pub fn disable_capture_cursor(
     mut q_windows: Query<&mut Window, With<PrimaryWindow>>,
     keys: Res<ButtonInput<KeyCode>>,
 ) {
