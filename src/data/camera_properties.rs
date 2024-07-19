@@ -1,4 +1,4 @@
-use crate::key_binding::CameraKeyBindings;
+use crate::data::key_binding::CameraKeyBindings;
 use bevy::prelude::Resource;
 use bevy::math::Vec3;
 

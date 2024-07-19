@@ -1,2 +1,2 @@
 # TODO
-- Adde move up/down with q/e
+- Option for show cursor

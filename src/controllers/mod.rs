@@ -1,2 +1,2 @@
-pub mod free_flight;
-mod input;
+pub mod movement;
+pub(crate) mod rotation;

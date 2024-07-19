@@ -3,8 +3,8 @@
 use bevy::input::mouse::MouseMotion;
 use bevy::prelude::*;
 use bevy::window::{CursorGrabMode, PrimaryWindow};
-use crate::camera_properties::CameraProperties;
-use crate::key_binding::{CameraMovementActions, CameraKeyBindings, CameraRotationActions, CameraMovementEvents, CameraRotationEvents, HandleInput};
+use crate::data::camera_properties::CameraProperties;
+use crate::data::key_binding::{CameraMovementActions, CameraKeyBindings, CameraRotationActions, CameraMovementEvents, CameraRotationEvents, HandleInput};
 use crate::prelude::CameraRotationAction;
 
 pub fn handle_disable_input(
