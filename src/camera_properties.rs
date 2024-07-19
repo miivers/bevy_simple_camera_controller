@@ -1,5 +1,6 @@
-use bevy::prelude::Resource;
 use crate::key_binding::CameraKeyBindings;
+use bevy::prelude::Resource;
+use bevy::math::Vec3;
 
 #[derive(Resource, Clone)]
 pub struct CameraProperties {
@@ -9,6 +10,15 @@ pub struct CameraProperties {
     pub key_bindings: CameraKeyBindings,
 }
 
+
+#[derive(Resource, Clone)]
+pub struct InitialPosition {
+    pub position: Vec3,
+    pub look_at: Vec3,
+    pub up_vector: Vec3,
+}
+
+
 impl Default for CameraProperties {
     fn default() -> Self {
         Self {
@@ -16,6 +26,16 @@ impl Default for CameraProperties {
             rotation_speed: 0.2,
             grab_mouse: true,
             key_bindings: CameraKeyBindings::wasd(),
+        }
+    }
+}
+
+impl Default for InitialPosition {
+    fn default() -> Self {
+        Self {
+            position: Vec3::new(-2.5, 4.5, 9.0),
+            look_at: Vec3::ZERO,
+            up_vector: Vec3::Y,
         }
     }
 }

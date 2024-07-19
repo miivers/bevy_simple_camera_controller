@@ -1,24 +1,45 @@
 use bevy::prelude::{Camera3dBundle, Commands, EventReader, KeyCode, Query, Res, Transform, Window, With};
+use bevy::window::{CursorGrabMode, PrimaryWindow};
 use bevy::app::{Plugin, App, FixedUpdate};
 use bevy::input::mouse::MouseMotion;
 use bevy::input::ButtonInput;
 use bevy::math::{Quat, Vec3};
 use bevy::time::{Real, Time};
 use bevy::utils::default;
-use bevy::window::{CursorGrabMode, PrimaryWindow};
 use crate::camera_common::{CameraTag, capture_cursor, disable_capture_cursor};
-use crate::camera_properties::CameraProperties;
+use crate::camera_properties::{CameraProperties, InitialPosition};
 use crate::key_binding::{CameraAction, CameraKeyBindings};
 
 #[derive(Default)]
 pub struct FreeCameraPlugin {
+    pub initial_position: InitialPosition,
     pub properties: CameraProperties,
 }
 
 impl FreeCameraPlugin {
-    pub fn create_camera(mut commands: Commands) {
+    pub fn new(
+        initial_position: InitialPosition,
+        properties: CameraProperties
+    ) -> Self {
+        Self {
+            initial_position,
+            properties,
+        }
+    }
+
+    pub fn create_camera(
+        mut commands: Commands,
+        initial_position: Res<InitialPosition>
+    ) {
         commands.spawn((Camera3dBundle {
-            transform: Transform::from_xyz(-2.5, 4.5, 9.0).looking_at(Vec3::ZERO, Vec3::Y),
+            transform: Transform::from_xyz(
+                initial_position.position.x,
+                initial_position.position.y,
+                initial_position.position.z,
+            ).looking_at(
+                initial_position.look_at,
+                initial_position.up_vector,
+            ),
             ..default()
         },
             CameraTag
@@ -35,6 +56,7 @@ impl Plugin for FreeCameraPlugin {
             app.add_systems(FixedUpdate, disable_capture_cursor);
         }
 
+        app.insert_resource(self.initial_position.clone());
         app.insert_resource(self.properties.clone());
         app.insert_resource(self.properties.key_bindings.clone());
     }
