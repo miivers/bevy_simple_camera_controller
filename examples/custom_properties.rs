@@ -1,10 +1,7 @@
 mod common;
 
-use bevy_simple_camera_controller::camera_properties::{CameraProperties, InitialPosition};
-use bevy_simple_camera_controller::camera_common::CameraTag;
-use bevy_simple_camera_controller::free_camera::*;
 use bevy::prelude::*;
-use bevy_simple_camera_controller::key_binding::CameraKeyBindings;
+use bevy_simple_camera_controller::prelude::*;
 use common::utils;
 
 fn main() {

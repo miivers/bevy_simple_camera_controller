@@ -1,7 +1,7 @@
 # bevy_simple_camera_controller
 
 Work in progress! Made for Bevy 0.14.0  
-I am new to rust and Bevy. This project will change as my understanding of bouth increases.
+I am new to rust and Bevy. This project will change as my understanding of both increases.
   
 An attempt to make it easy to add camera controller to a bevy project. The main focus is ease of use.  
   
@@ -20,8 +20,7 @@ Currently only support keyboard and mouse.
 ```rust
 mod common;
 
-use bevy_simple_camera_controller::camera_properties::{CameraProperties, InitialPosition};
-use bevy_simple_camera_controller::free_camera::*;
+use bevy_simple_camera_controller::prelude::*;
 use bevy::prelude::*;
 use common::utils;
 

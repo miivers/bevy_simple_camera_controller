@@ -1,7 +1,6 @@
 mod common;
 
-use bevy_simple_camera_controller::camera_properties::{CameraProperties, InitialPosition};
-use bevy_simple_camera_controller::free_camera::*;
+use bevy_simple_camera_controller::prelude::*;
 use bevy::prelude::*;
 use common::utils;
 
