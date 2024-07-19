@@ -16,6 +16,7 @@ fn main() {
                 up_vector: Vec3::Y
             }, CameraProperties{
                 input_enabled: true,
+                hide_cursor: false,
                 movement_speed: 5.0,
                 rotation_speed: 0.1,
                 grab_mouse: true,

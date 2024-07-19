@@ -2,11 +2,13 @@ use bevy::input::ButtonState;
 use bevy::input::mouse::MouseButtonInput;
 use bevy::prelude::*;
 use bevy::window::{CursorGrabMode, PrimaryWindow};
+use crate::prelude::CameraProperties;
 
 #[derive(Component)]
 pub struct CameraTag;
 
 pub fn capture_cursor(
+    properties: Res<CameraProperties>,
     mut q_windows: Query<&mut Window, With<PrimaryWindow>>,
     mut mouse_button_event: EventReader<MouseButtonInput>,
 ) {
@@ -19,7 +21,13 @@ pub fn capture_cursor(
                     let window_size = Vec2::new(primary_window.width() as f32, primary_window.height() as f32);
                     if position.x >= 0.0 && position.x <= window_size.x && position.y >= 0.0 && position.y <= window_size.y {
                         primary_window.cursor.grab_mode = CursorGrabMode::Locked;
-                        primary_window.cursor.visible = false;
+
+                        if properties.hide_cursor {
+                            primary_window.cursor.visible = false;
+                        }
+                        else {
+                            primary_window.cursor.visible = true;
+                        }
                     }
                 }
             }

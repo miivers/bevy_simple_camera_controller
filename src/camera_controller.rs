@@ -1,12 +1,14 @@
 use bevy::prelude::{Camera3dBundle, Commands, Res, Transform};
 use bevy::app::{Plugin, App, Update};
 use bevy::utils::default;
+use crate::controllers::look_at::handle_look_at;
 use crate::input::capture_cursor::{CameraTag, capture_cursor, disable_capture_cursor};
 use crate::data::camera_properties::{CameraProperties, InitialPosition};
 use crate::input::input::{handle_disable_input, handle_keyboard_input, handle_mouse_input};
 use crate::data::key_binding::{CameraMovementEvents, CameraRotationEvents};
 use crate::controllers::movement::update_movement;
 use crate::controllers::rotation::update_rotation;
+use crate::prelude::LookAt;
 
 #[derive(Default)]
 pub struct FreeFlightCameraPlugin {
@@ -49,6 +51,7 @@ impl Plugin for FreeFlightCameraPlugin {
     fn build(&self, app: &mut App) {
         app.add_event::<CameraMovementEvents>();
         app.add_event::<CameraRotationEvents>();
+        app.add_event::<LookAt>();
 
         app.add_systems(Update, handle_disable_input);
         app.add_systems(Update, update_movement);
@@ -56,6 +59,7 @@ impl Plugin for FreeFlightCameraPlugin {
 
         app.observe(handle_keyboard_input);
         app.observe(handle_mouse_input);
+        app.observe(handle_look_at);
 
         if self.properties.grab_mouse {
             app.add_systems(Update, capture_cursor);
