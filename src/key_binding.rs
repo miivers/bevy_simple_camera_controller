@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 #[derive(Debug, Hash, PartialEq, Eq, Clone)]
 pub enum CameraAction {
@@ -8,8 +8,26 @@ pub enum CameraAction {
     MoveLeft,
     MoveRight,
     MoveUp,
-    MoveDown
+    MoveDown,
 }
+
+#[derive(Debug, PartialEq, Clone)]
+pub enum CameraRotationAction {
+    Horizontal(f32),
+    Vertical(f32),
+}
+
+pub type CameraRotationActions = Vec<CameraRotationAction>;
+pub type CameraMovementActions = HashSet<CameraAction>;
+
+#[derive(Event)]
+pub struct CameraMovementEvents(pub CameraMovementActions);
+
+#[derive(Event)]
+pub struct CameraRotationEvents(pub CameraRotationActions);
+
+#[derive(Event)]
+pub struct HandleInput;
 
 #[derive(Resource, Clone)]
 pub struct CameraKeyBindings {

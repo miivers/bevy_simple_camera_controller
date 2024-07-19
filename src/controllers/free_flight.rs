@@ -1,14 +1,12 @@
-use bevy::prelude::{Camera3dBundle, Commands, EventReader, KeyCode, Query, Res, Transform, Window, With};
-use bevy::window::{CursorGrabMode, PrimaryWindow};
-use bevy::app::{Plugin, App, FixedUpdate};
-use bevy::input::mouse::MouseMotion;
-use bevy::input::ButtonInput;
+use bevy::prelude::{Camera3dBundle, Commands, EventReader, Query, Res, Transform, With};
+use bevy::app::{Plugin, App, Update};
 use bevy::math::{Quat, Vec3};
 use bevy::time::{Real, Time};
 use bevy::utils::default;
 use crate::camera_common::{CameraTag, capture_cursor, disable_capture_cursor};
 use crate::camera_properties::{CameraProperties, InitialPosition};
-use crate::key_binding::{CameraAction, CameraKeyBindings};
+use crate::controllers::input::{handle_disable_input, handle_keyboard_input, handle_mouse_input};
+use crate::key_binding::{CameraAction, CameraMovementEvents, CameraRotationAction, CameraRotationEvents};
 
 #[derive(Default)]
 pub struct FreeFlightCameraPlugin {
@@ -49,11 +47,19 @@ impl FreeFlightCameraPlugin {
 
 impl Plugin for FreeFlightCameraPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(FixedUpdate, update);
+        app.add_event::<CameraMovementEvents>();
+        app.add_event::<CameraRotationEvents>();
+
+        app.add_systems(Update, handle_disable_input);
+        app.add_systems(Update, update_movement);
+        app.add_systems(Update, update_rotation);
+
+        app.observe(handle_keyboard_input);
+        app.observe(handle_mouse_input);
 
         if self.properties.grab_mouse {
-            app.add_systems(FixedUpdate, capture_cursor);
-            app.add_systems(FixedUpdate, disable_capture_cursor);
+            app.add_systems(Update, capture_cursor);
+            app.add_systems(Update, disable_capture_cursor);
         }
 
         app.insert_resource(self.initial_position.clone());
@@ -62,60 +68,60 @@ impl Plugin for FreeFlightCameraPlugin {
     }
 }
 
-fn update(
+fn update_movement(
     mut query: Query<&mut Transform, With<CameraTag>>,
-    mut q_windows: Query<&mut Window, With<PrimaryWindow>>,
-    mut mouse_motion_events: EventReader<MouseMotion>,
-    key_bindings: Res<CameraKeyBindings>,
-    keys: Res<ButtonInput<KeyCode>>,
     properties: Res<CameraProperties>,
+    mut movement_events: EventReader<CameraMovementEvents>,
     time: Res<Time<Real>>,
 ) {
+    if movement_events.is_empty() {
+        return;
+    }
 
-    if properties.grab_mouse {
-        // We use CursorGrabMode::Locked to signal the user has clicked and given focus to the window
-        if q_windows.single_mut().cursor.grab_mode != CursorGrabMode::Locked {
-            return;
+    let mut movement_vector = Vec3::ZERO;
+
+    let mut camera_transform = query.single_mut();
+
+    for events in movement_events.read() {
+        for event in &events.0 {
+            match event {
+                CameraAction::MoveForward  => movement_vector += Vec3::from(camera_transform.forward()),
+                CameraAction::MoveBackward => movement_vector -= Vec3::from(camera_transform.forward()),
+                CameraAction::MoveLeft     => movement_vector -= Vec3::from(camera_transform.right()),
+                CameraAction::MoveRight    => movement_vector += Vec3::from(camera_transform.right()),
+                CameraAction::MoveUp       => movement_vector += Vec3::from(camera_transform.up()),
+                CameraAction::MoveDown     => movement_vector -= Vec3::from(camera_transform.up()),
+            }
         }
     }
 
-    for mut transform in &mut query {
-        let mut movement_vector = Vec3::ZERO;
+    camera_transform.translation += movement_vector.normalize() * time.delta_seconds() * properties.movement_speed;
+}
 
-        if let Some(&key) = key_bindings.bindings.get(&CameraAction::MoveForward) {
-            if keys.pressed(key) {
-                movement_vector += Vec3::from(transform.forward());
+fn update_rotation(
+    mut query: Query<&mut Transform, With<CameraTag>>,
+    properties: Res<CameraProperties>,
+    mut rotation_events: EventReader<CameraRotationEvents>,
+    time: Res<Time<Real>>,
+) {
+    if rotation_events.is_empty() {
+        return;
+    }
+
+    let mut yaw_rotation: f32 = 0.;
+    let mut pitch_rotation: f32 = 0.;
+
+    let mut camera_transform = query.single_mut();
+
+    for events in rotation_events.read() {
+        for event in &events.0 {
+            match event {
+                CameraRotationAction::Horizontal(delta) => yaw_rotation += delta,
+                CameraRotationAction::Vertical(delta)   => pitch_rotation += delta,
             }
-        }
-
-        if let Some(&key) = key_bindings.bindings.get(&CameraAction::MoveBackward) {
-            if keys.pressed(key) {
-                movement_vector -= Vec3::from(transform.forward());
-            }
-        }
-
-        if let Some(&key) = key_bindings.bindings.get(&CameraAction::MoveLeft) {
-            if keys.pressed(key) {
-                movement_vector -= Vec3::from(transform.right());
-            }
-        }
-
-        if let Some(&key) = key_bindings.bindings.get(&CameraAction::MoveRight) {
-            if keys.pressed(key) {
-                movement_vector += Vec3::from(transform.right());
-            }
-        }
-
-        if movement_vector != Vec3::ZERO {
-            transform.translation += movement_vector.normalize() * time.delta_seconds() * properties.movement_speed;
-        }
-
-        for mouse_event in mouse_motion_events.read() {
-            let yaw_rotation = Quat::from_rotation_y(-mouse_event.delta.x * properties.rotation_speed * time.delta_seconds());
-            let pitch_rotation = Quat::from_rotation_x(-mouse_event.delta.y * properties.rotation_speed * time.delta_seconds());
-
-            transform.rotation = yaw_rotation * transform.rotation;
-            transform.rotation = transform.rotation * pitch_rotation;
         }
     }
+
+    camera_transform.rotation = Quat::from_rotation_y(-yaw_rotation * properties.rotation_speed * time.delta_seconds()) * camera_transform.rotation;
+    camera_transform.rotation = camera_transform.rotation * Quat::from_rotation_x(-pitch_rotation * properties.rotation_speed * time.delta_seconds());
 }

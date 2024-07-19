@@ -4,6 +4,7 @@ use bevy::math::Vec3;
 
 #[derive(Resource, Clone)]
 pub struct CameraProperties {
+    pub input_enabled: bool,
     pub movement_speed: f32,
     pub rotation_speed: f32,
     pub grab_mouse: bool,
@@ -22,6 +23,7 @@ pub struct InitialPosition {
 impl Default for CameraProperties {
     fn default() -> Self {
         Self {
+            input_enabled: true,
             movement_speed: 10.0,
             rotation_speed: 0.2,
             grab_mouse: true,

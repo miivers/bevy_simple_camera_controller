@@ -14,8 +14,8 @@ fn main() {
                 position: Vec3::new(-2.5, 4.5, 9.0),
                 look_at: Vec3::ZERO,
                 up_vector: Vec3::Y
-            },
-                                    CameraProperties{
+            }, CameraProperties{
+                input_enabled: true,
                 movement_speed: 5.0,
                 rotation_speed: 0.1,
                 grab_mouse: true,
