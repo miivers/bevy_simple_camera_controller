@@ -11,12 +11,12 @@ use crate::camera_properties::{CameraProperties, InitialPosition};
 use crate::key_binding::{CameraAction, CameraKeyBindings};
 
 #[derive(Default)]
-pub struct FreeCameraPlugin {
+pub struct FreeFlightCameraPlugin {
     pub initial_position: InitialPosition,
     pub properties: CameraProperties,
 }
 
-impl FreeCameraPlugin {
+impl FreeFlightCameraPlugin {
     pub fn new(
         initial_position: InitialPosition,
         properties: CameraProperties
@@ -47,7 +47,7 @@ impl FreeCameraPlugin {
     }
 }
 
-impl Plugin for FreeCameraPlugin {
+impl Plugin for FreeFlightCameraPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(FixedUpdate, update);
 

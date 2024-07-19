@@ -1,7 +1,7 @@
 mod common;
 
 use std::collections::HashMap;
-use bevy_simple_camera_controller::free_camera::*;
+use bevy_simple_camera_controller::free_flight::*;
 use bevy_simple_camera_controller::camera_properties::CameraProperties;
 use bevy::prelude::*;
 use bevy_simple_camera_controller::key_binding::{CameraAction, CameraKeyBindings};

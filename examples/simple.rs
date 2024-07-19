@@ -10,7 +10,7 @@ fn main() {
         app.add_plugins((
             DefaultPlugins,
             // 1: Setup camera
-            FreeCameraPlugin::new(
+            FreeFlightCameraPlugin::new(
                 InitialPosition {
                     position: Vec3::new(-2.5, 4.5, 9.0),
                     look_at: Vec3::ZERO,
@@ -22,7 +22,7 @@ fn main() {
 
         app.add_systems(Startup, (
             // 2: Create camera
-            FreeCameraPlugin::create_camera,
+            FreeFlightCameraPlugin::create_camera,
             utils::setup_example_scene,
         ));
         app.run();

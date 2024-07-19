@@ -10,12 +10,12 @@ fn main() {
     app.add_plugins((
         DefaultPlugins,
         // Add camera plugin
-        FreeCameraPlugin::new(InitialPosition {
+        FreeFlightCameraPlugin::new(InitialPosition {
                 position: Vec3::new(-2.5, 4.5, 9.0),
                 look_at: Vec3::ZERO,
                 up_vector: Vec3::Y
             },
-            CameraProperties{
+                                    CameraProperties{
                 movement_speed: 5.0,
                 rotation_speed: 0.1,
                 grab_mouse: true,
