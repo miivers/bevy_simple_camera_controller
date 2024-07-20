@@ -24,10 +24,12 @@ fn main() {
                 key_bindings: CameraKeyBindings::wasd(),
             }, CameraControllerBuilderData {
             with_movement: true,
-            with_rotation: true,
+            with_free_flight_rotation: true,
+            with_orbit_rotation: false,
             with_hide_cursor: false,
             with_grab_cursor: false,
             lock_y_axis_movement: false,
+            rotation_speed: None,
         }
         )));
 

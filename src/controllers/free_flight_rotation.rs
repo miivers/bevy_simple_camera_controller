@@ -4,7 +4,7 @@ use crate::data::camera_properties::CameraProperties;
 use crate::data::key_binding::{CameraRotationAction, CameraRotationEvents};
 use crate::prelude::CameraTag;
 
-pub fn update_rotation(
+pub fn update_free_flight_rotation(
     mut query: Query<&mut Transform, With<CameraTag>>,
     properties: Res<CameraProperties>,
     mut rotation_events: EventReader<CameraRotationEvents>,

@@ -2,11 +2,11 @@ use crate::camera_controller::CameraControllerPlugin;
 use crate::prelude::CustomCameraControllerBuilder;
 
 
-pub struct FreeFlightControllerBuilder {
+pub struct OrbitControllerBuilder {
     builder: CustomCameraControllerBuilder,
 }
 
-impl FreeFlightControllerBuilder {
+impl OrbitControllerBuilder {
     pub fn new() -> Self {
         Self {
             builder: CustomCameraControllerBuilder::new()
@@ -23,16 +23,20 @@ impl FreeFlightControllerBuilder {
         self
     }
 
+    pub fn set_rotation_speed(&mut self, speed: f32) -> &mut Self {
+        self.builder.set_rotation_speed(speed);
+        self
+    }
+
     pub fn build(&self) -> CameraControllerPlugin {
         self.builder.build()
     }
 }
 
-impl Default for FreeFlightControllerBuilder {
+impl Default for OrbitControllerBuilder {
     fn default() -> Self {
         let mut camera_builder_config = Self::new();
-        camera_builder_config.builder.with_movement();
-        camera_builder_config.builder.with_free_flight_rotation();
+        camera_builder_config.builder.with_orbit_rotation();
 
         return  camera_builder_config
     }

@@ -6,7 +6,8 @@ pub use crate::controllers::look_at::LookAt;
 pub use crate::controllers::teleport::Teleport;
 pub use crate::builders::custom_camera_controller_builder::{
     CustomCameraControllerBuilder,
-    CameraControllerBuilderData
+    CameraControllerBuilderData,
 };
 pub use crate::builders::free_flight_controller_builder::FreeFlightControllerBuilder;
 pub use crate::builders::top_down_controller_builder::TopDownControllerBuilder;
+pub use crate::builders::orbit_controller_builder::OrbitControllerBuilder;

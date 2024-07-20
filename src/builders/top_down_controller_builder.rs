@@ -13,6 +13,11 @@ impl TopDownControllerBuilder {
         }
     }
 
+    pub fn with_free_flight_rotation(&mut self) -> &mut Self {
+        self.builder.with_free_flight_rotation();
+        self
+    }
+
     pub fn with_hide_cursor(&mut self) -> &mut Self {
         self.builder.with_hide_cursor();
         self

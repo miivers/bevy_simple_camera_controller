@@ -1,7 +1,7 @@
 [package]
 name = "bevy_simple_camera_controller"
 license = "MIT"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 description = "Minimalistic camera controller"
 readme = "README.md"

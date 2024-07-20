@@ -7,6 +7,9 @@ use crate::prelude::CameraProperties;
 #[derive(Component)]
 pub struct CameraTag;
 
+#[derive(Component)]
+pub struct CameraOrbitTag;
+
 pub fn capture_cursor(
     properties: Res<CameraProperties>,
     mut q_windows: Query<&mut Window, With<PrimaryWindow>>,

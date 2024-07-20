@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy_simple_camera_controller::prelude::CameraOrbitTag;
 
 /// set up a simple 3D scene
 pub fn setup_example_scene(
@@ -15,12 +16,14 @@ pub fn setup_example_scene(
     });
 
     // cube
-    commands.spawn(PbrBundle {
+    commands.spawn((PbrBundle {
         mesh: meshes.add(Cuboid::new(1.0, 1.0, 1.0)),
         material: materials.add(Color::srgb_u8(124, 144, 255)),
         transform: Transform::from_xyz(0.0, 0.5, 0.0),
         ..default()
-    });
+    },
+        CameraOrbitTag,
+    ));
 
     // light
     commands.spawn(PointLightBundle {

@@ -8,7 +8,8 @@ use crate::data::camera_properties::{CameraProperties, InitialPosition};
 use crate::input::input::{handle_disable_input, handle_keyboard_input, handle_mouse_input};
 use crate::data::key_binding::{CameraMovementEvents, CameraRotationEvents};
 use crate::controllers::movement::update_movement;
-use crate::controllers::rotation::update_rotation;
+use crate::controllers::free_flight_rotation::update_free_flight_rotation;
+use crate::controllers::orbit_rotation::update_orbit_rotation;
 use crate::controllers::teleport::{handle_teleport, Teleport};
 
 #[derive(Default)]
@@ -33,6 +34,10 @@ impl CameraControllerPlugin {
         camera_controller.properties.lock_y_axis_movement = camera_controller.builder_config.lock_y_axis_movement;
         camera_controller.properties.hide_cursor = camera_controller.builder_config.with_hide_cursor;
         camera_controller.properties.grab_cursor = camera_controller.builder_config.with_grab_cursor;
+
+        if let Some(rotation_speed) = camera_controller.builder_config.rotation_speed {
+            camera_controller.properties.rotation_speed = rotation_speed;
+        }
 
         return camera_controller;
     }
@@ -77,11 +82,23 @@ impl Plugin for CameraControllerPlugin {
             app.add_systems(Update, update_movement);
         }
 
-        if self.builder_config.with_rotation {
+        let multiple_rotation_controllers =
+            self.builder_config.with_free_flight_rotation == true &&
+            self.builder_config.with_orbit_rotation == true;
+        assert_eq!(multiple_rotation_controllers, false, "Multiple rotation controllers is not supported");
+
+        if self.builder_config.with_free_flight_rotation {
             app.add_event::<CameraRotationEvents>();
             app.observe(handle_mouse_input);
 
-            app.add_systems(Update, update_rotation);
+            app.add_systems(Update, update_free_flight_rotation);
+        }
+
+        if self.builder_config.with_orbit_rotation {
+            app.add_event::<CameraRotationEvents>();
+            app.observe(handle_mouse_input);
+
+            app.add_systems(Update, update_orbit_rotation);
         }
 
         app.add_event::<LookAt>();
