@@ -3,6 +3,7 @@ pub use crate::data::camera_properties::*;
 pub use crate::data::key_binding::*;
 pub use crate::camera_controller::*;
 pub use crate::controllers::look_at::LookAt;
+pub use crate::controllers::teleport::Teleport;
 pub use crate::builders::custom_camera_controller_builder::{
     CustomCameraControllerBuilder,
     CameraControllerBuilderData

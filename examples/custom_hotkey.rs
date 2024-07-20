@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use bevy::prelude::*;
-use bevy_simple_camera_controller::prelude::{CameraAction, CameraControllerBuilderData, CameraControllerPlugin, CameraKeyBindings, CameraProperties};
+use bevy_simple_camera_controller::prelude::*;
 use crate::common::utils;
 
 mod common;

@@ -3,7 +3,6 @@ mod common;
 use bevy_simple_camera_controller::prelude::*;
 use bevy::prelude::*;
 use rand::Rng;
-use bevy_simple_camera_controller::controllers::teleport::Teleport;
 use common::utils;
 
 fn main() {
