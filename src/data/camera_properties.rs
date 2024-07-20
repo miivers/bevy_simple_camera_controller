@@ -20,7 +20,6 @@ pub struct InitialPosition {
     pub up_vector: Vec3,
 }
 
-
 impl Default for CameraProperties {
     fn default() -> Self {
         Self {

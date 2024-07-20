@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use bevy::prelude::*;
-use bevy_simple_camera_controller::prelude::{CameraAction, CameraControllerPlugin, CameraKeyBindings, CameraProperties};
+use bevy_simple_camera_controller::prelude::{CameraAction, CameraControllerBuilderData, CameraControllerPlugin, CameraKeyBindings, CameraProperties};
 use crate::common::utils;
 
 mod common;
@@ -29,6 +29,12 @@ fn main() {
                 key_bindings: CameraKeyBindings {
                     bindings
                 }
+            },
+            builder_config: CameraControllerBuilderData {
+                with_movement: true,
+                with_rotation: true,
+                with_look_at: false,
+                with_teleport: false,
             }
         }
     ));

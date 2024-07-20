@@ -10,14 +10,7 @@ fn main() {
         app.add_plugins((
             DefaultPlugins,
             // 1: Setup camera
-            CameraControllerPlugin::new(
-                InitialPosition {
-                    position: Vec3::new(-2.5, 4.5, 9.0),
-                    look_at: Vec3::ZERO,
-                    up_vector: Vec3::Y
-                },
-                CameraProperties::default(),
-            )
+            FreeFlightControllerBuilder::default().build()
         ));
 
         app.add_systems(Startup, (

@@ -1,6 +1,7 @@
 use bevy::prelude::{Camera3dBundle, Commands, Res, Transform};
 use bevy::app::{Plugin, App, Update};
 use bevy::utils::default;
+use crate::builders::custom_camera_controller_builder::CameraControllerBuilderData;
 use crate::controllers::look_at::{handle_look_at, LookAt};
 use crate::input::capture_cursor::{CameraTag, capture_cursor, disable_capture_cursor};
 use crate::data::camera_properties::{CameraProperties, InitialPosition};
@@ -14,16 +15,19 @@ use crate::controllers::teleport::{handle_teleport, Teleport};
 pub struct CameraControllerPlugin {
     pub initial_position: InitialPosition,
     pub properties: CameraProperties,
+    pub builder_config: CameraControllerBuilderData,
 }
 
 impl CameraControllerPlugin {
     pub fn new(
         initial_position: InitialPosition,
-        properties: CameraProperties
+        properties: CameraProperties,
+        builder_config: CameraControllerBuilderData,
     ) -> Self {
         Self {
             initial_position,
             properties,
+            builder_config
         }
     }
 
@@ -49,19 +53,7 @@ impl CameraControllerPlugin {
 
 impl Plugin for CameraControllerPlugin {
     fn build(&self, app: &mut App) {
-        app.add_event::<CameraMovementEvents>();
-        app.add_event::<CameraRotationEvents>();
-        app.add_event::<LookAt>();
-        app.add_event::<Teleport>();
-
         app.add_systems(Update, handle_disable_input);
-        app.add_systems(Update, update_movement);
-        app.add_systems(Update, update_rotation);
-
-        app.observe(handle_keyboard_input);
-        app.observe(handle_mouse_input);
-        app.observe(handle_look_at);
-        app.observe(handle_teleport);
 
         if self.properties.grab_mouse {
             app.add_systems(Update, capture_cursor);
@@ -71,5 +63,29 @@ impl Plugin for CameraControllerPlugin {
         app.insert_resource(self.initial_position.clone());
         app.insert_resource(self.properties.clone());
         app.insert_resource(self.properties.key_bindings.clone());
+
+        if self.builder_config.with_movement {
+            app.add_event::<CameraMovementEvents>();
+            app.observe(handle_keyboard_input);
+
+            app.add_systems(Update, update_movement);
+        }
+
+        if self.builder_config.with_rotation {
+            app.add_event::<CameraRotationEvents>();
+            app.observe(handle_mouse_input);
+
+            app.add_systems(Update, update_rotation);
+        }
+
+        if self.builder_config.with_look_at {
+            app.add_event::<LookAt>();
+            app.observe(handle_look_at);
+        }
+
+        if self.builder_config.with_teleport {
+            app.add_event::<Teleport>();
+            app.observe(handle_teleport);
+        }
     }
 }

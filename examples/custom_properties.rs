@@ -21,7 +21,12 @@ fn main() {
                 rotation_speed: 0.1,
                 grab_mouse: true,
                 key_bindings: CameraKeyBindings::wasd(),
-            },
+            }, CameraControllerBuilderData {
+            with_movement: true,
+            with_rotation: true,
+            with_look_at: false,
+            with_teleport: false,
+        }
         )));
 
     app.add_systems(Startup, (
