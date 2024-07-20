@@ -35,5 +35,10 @@ pub fn update_movement(
         movement_vector = Vec3::new(movement_vector.x, 0., movement_vector.z);
     }
 
+    // Prevent NaN when normalizing vector
+    if movement_vector == Vec3::ZERO {
+        return;
+    }
+
     camera_transform.translation += movement_vector.normalize() * time.delta_seconds() * properties.movement_speed;
 }

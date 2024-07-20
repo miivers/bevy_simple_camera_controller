@@ -23,6 +23,7 @@ fn main() {
             properties: CameraProperties{
                 input_enabled: true,
                 hide_cursor: true,
+                lock_y_axis_movement: false,
                 movement_speed: 5.0,
                 rotation_speed: 0.1,
                 grab_mouse: true,
@@ -33,6 +34,7 @@ fn main() {
             builder_config: CameraControllerBuilderData {
                 with_movement: true,
                 with_rotation: true,
+                lock_y_axis_movement: false,
             }
         }
     ));

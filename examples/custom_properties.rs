@@ -17,13 +17,15 @@ fn main() {
             }, CameraProperties{
                 input_enabled: true,
                 hide_cursor: false,
-                movement_speed: 5.0,
+            lock_y_axis_movement: false,
+            movement_speed: 5.0,
                 rotation_speed: 0.1,
                 grab_mouse: true,
                 key_bindings: CameraKeyBindings::wasd(),
             }, CameraControllerBuilderData {
             with_movement: true,
             with_rotation: true,
+            lock_y_axis_movement: false,
         }
         )));
 
