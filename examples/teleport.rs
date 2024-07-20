@@ -12,11 +12,9 @@ fn main() {
     app.add_plugins((
         DefaultPlugins,
         // 1: Setup camera
-        // 1: Setup camera with look_at support
         // Note: Keyboard and mouse input is not enabled in this example
         // To enable it call "with_movement" and/or "with_rotation"
-        FreeFlightControllerBuilder::default().
-            with_teleport().
+        FreeFlightControllerBuilder::new().
             build(),
     ));
 

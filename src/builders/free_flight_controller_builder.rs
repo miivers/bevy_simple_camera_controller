@@ -23,16 +23,6 @@ impl FreeFlightControllerBuilder {
         self
     }
 
-    pub fn with_look_at(&mut self) ->  &mut Self {
-        self.config.with_look_at();
-        self
-    }
-
-    pub fn with_teleport(&mut self) ->  &mut Self {
-        self.config.with_teleport();
-        self
-    }
-
     pub fn build(&self) -> CameraControllerPlugin {
         self.config.build()
     }
@@ -43,8 +33,6 @@ impl Default for FreeFlightControllerBuilder {
         let mut camera_builder_config = Self::new();
         camera_builder_config.with_movement();
         camera_builder_config.with_rotation();
-        camera_builder_config.with_look_at();
-        camera_builder_config.with_teleport();
 
         return  camera_builder_config
     }

@@ -33,8 +33,6 @@ fn main() {
             builder_config: CameraControllerBuilderData {
                 with_movement: true,
                 with_rotation: true,
-                with_look_at: false,
-                with_teleport: false,
             }
         }
     ));

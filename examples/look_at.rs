@@ -13,8 +13,7 @@ fn main() {
         // 1: Setup camera with teleport support
         // Note: Keyboard and mouse input is not enabled in this example
         // To enable it call "with_movement" and/or "with_rotation"
-        FreeFlightControllerBuilder::default().
-            with_look_at().
+        FreeFlightControllerBuilder::new().
             build(),
     ));
 

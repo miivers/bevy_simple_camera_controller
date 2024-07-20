@@ -5,8 +5,6 @@ use crate::prelude::{CameraProperties, InitialPosition};
 pub struct CameraControllerBuilderData {
     pub with_movement: bool,
     pub with_rotation: bool,
-    pub with_look_at: bool,
-    pub with_teleport: bool,
 }
 
 pub struct CustomCameraControllerBuilder {
@@ -28,23 +26,13 @@ impl CustomCameraControllerBuilder {
         )
     }
 
-    pub fn with_movement(&mut self) ->  &mut Self {
+    pub fn with_movement(&mut self) -> &mut Self {
         self.config.with_movement = true;
         self
     }
 
-    pub fn with_rotation(&mut self) ->  &mut Self {
+    pub fn with_rotation(&mut self) -> &mut Self {
         self.config.with_rotation = true;
-        self
-    }
-
-    pub fn with_look_at(&mut self) ->  &mut Self {
-        self.config.with_look_at = true;
-        self
-    }
-
-    pub fn with_teleport(&mut self) ->  &mut Self {
-        self.config.with_teleport = true;
         self
     }
 }
@@ -54,8 +42,6 @@ impl Default for CustomCameraControllerBuilder {
          let mut camera_builder_config = Self::new();
          camera_builder_config.with_movement();
          camera_builder_config.with_rotation();
-         camera_builder_config.with_look_at();
-         camera_builder_config.with_teleport();
 
          return  camera_builder_config
     }

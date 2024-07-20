@@ -78,14 +78,10 @@ impl Plugin for CameraControllerPlugin {
             app.add_systems(Update, update_rotation);
         }
 
-        if self.builder_config.with_look_at {
-            app.add_event::<LookAt>();
-            app.observe(handle_look_at);
-        }
+        app.add_event::<LookAt>();
+        app.observe(handle_look_at);
 
-        if self.builder_config.with_teleport {
-            app.add_event::<Teleport>();
-            app.observe(handle_teleport);
-        }
+        app.add_event::<Teleport>();
+        app.observe(handle_teleport);
     }
 }
