@@ -24,11 +24,14 @@ impl CameraControllerPlugin {
         properties: CameraProperties,
         builder_config: CameraControllerBuilderData,
     ) -> Self {
-        Self {
+        let mut camera_controller = Self {
             initial_position,
             properties,
             builder_config
-        }
+        };
+
+        camera_controller.properties.lock_y_axis_movement = camera_controller.builder_config.lock_y_axis_movement;
+        return camera_controller;
     }
 
     pub fn create_camera(

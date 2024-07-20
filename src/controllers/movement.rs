@@ -31,5 +31,9 @@ pub fn update_movement(
         }
     }
 
+    if properties.lock_y_axis_movement {
+        movement_vector = Vec3::new(movement_vector.x, 0., movement_vector.z);
+    }
+
     camera_transform.translation += movement_vector.normalize() * time.delta_seconds() * properties.movement_speed;
 }

@@ -8,3 +8,4 @@ pub use crate::builders::custom_camera_controller_builder::{
     CameraControllerBuilderData
 };
 pub use crate::builders::free_flight_controller_builder::FreeFlightControllerBuilder;
+pub use crate::builders::top_down_controller_builder::TopDownControllerBuilder;
