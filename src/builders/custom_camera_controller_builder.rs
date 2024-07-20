@@ -5,6 +5,8 @@ use crate::prelude::{CameraProperties, InitialPosition};
 pub struct CameraControllerBuilderData {
     pub with_movement: bool,
     pub with_rotation: bool,
+    pub with_hide_cursor: bool,
+    pub with_grab_cursor: bool,
     pub lock_y_axis_movement: bool,
 }
 
@@ -34,6 +36,16 @@ impl CustomCameraControllerBuilder {
 
     pub fn with_rotation(&mut self) -> &mut Self {
         self.config.with_rotation = true;
+        self
+    }
+
+    pub fn with_hide_cursor(&mut self) -> &mut Self {
+        self.config.with_hide_cursor = true;
+        self
+    }
+
+    pub fn with_grab_cursor(&mut self) -> &mut Self {
+        self.config.with_grab_cursor = true;
         self
     }
 

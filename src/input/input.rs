@@ -16,7 +16,7 @@ pub fn handle_disable_input(
         return;
     }
 
-    if properties.grab_mouse {
+    if properties.grab_cursor {
         // We use CursorGrabMode::Locked to signal the user has clicked and given focus to the window
         if q_windows.single_mut().cursor.grab_mode != CursorGrabMode::Locked {
             return;

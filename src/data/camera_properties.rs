@@ -9,7 +9,7 @@ pub struct CameraProperties {
     pub lock_y_axis_movement: bool,
     pub movement_speed: f32,
     pub rotation_speed: f32,
-    pub grab_mouse: bool,
+    pub grab_cursor: bool,
     pub key_bindings: CameraKeyBindings,
 }
 
@@ -29,7 +29,7 @@ impl Default for CameraProperties {
             lock_y_axis_movement: false,
             movement_speed: 10.0,
             rotation_speed: 0.2,
-            grab_mouse: true,
+            grab_cursor: true,
             key_bindings: CameraKeyBindings::wasd(),
         }
     }

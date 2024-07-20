@@ -13,6 +13,16 @@ impl FreeFlightControllerBuilder {
         }
     }
 
+    pub fn with_hide_cursor(&mut self) -> &mut Self {
+        self.builder.with_hide_cursor();
+        self
+    }
+
+    pub fn with_grab_cursor(&mut self) -> &mut Self {
+        self.builder.with_grab_cursor();
+        self
+    }
+
     pub fn build(&self) -> CameraControllerPlugin {
         self.builder.build()
     }

@@ -31,6 +31,9 @@ impl CameraControllerPlugin {
         };
 
         camera_controller.properties.lock_y_axis_movement = camera_controller.builder_config.lock_y_axis_movement;
+        camera_controller.properties.hide_cursor = camera_controller.builder_config.with_hide_cursor;
+        camera_controller.properties.grab_cursor = camera_controller.builder_config.with_grab_cursor;
+
         return camera_controller;
     }
 
@@ -58,7 +61,7 @@ impl Plugin for CameraControllerPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Update, handle_disable_input);
 
-        if self.properties.grab_mouse {
+        if self.properties.grab_cursor {
             app.add_systems(Update, capture_cursor);
             app.add_systems(Update, disable_capture_cursor);
         }

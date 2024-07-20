@@ -26,7 +26,7 @@ fn main() {
                 lock_y_axis_movement: false,
                 movement_speed: 5.0,
                 rotation_speed: 0.1,
-                grab_mouse: true,
+                grab_cursor: true,
                 key_bindings: CameraKeyBindings {
                     bindings
                 }
@@ -34,6 +34,8 @@ fn main() {
             builder_config: CameraControllerBuilderData {
                 with_movement: true,
                 with_rotation: true,
+                with_hide_cursor: false,
+                with_grab_cursor: false,
                 lock_y_axis_movement: false,
             }
         }
