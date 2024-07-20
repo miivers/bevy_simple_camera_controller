@@ -10,7 +10,7 @@ fn main() {
     app.add_plugins((
         DefaultPlugins,
         // Add camera plugin
-        FreeFlightCameraPlugin::new(InitialPosition {
+        CameraControllerPlugin::new(InitialPosition {
                 position: Vec3::new(-2.5, 4.5, 9.0),
                 look_at: Vec3::ZERO,
                 up_vector: Vec3::Y

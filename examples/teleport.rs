@@ -12,12 +12,12 @@ fn main() {
     app.add_plugins((
         DefaultPlugins,
         // 1: Setup camera
-        FreeFlightCameraPlugin::default(),
+        CameraControllerPlugin::default(),
     ));
 
     app.add_systems(Startup, (
         // 2: Create camera
-        FreeFlightCameraPlugin::create_camera,
+        CameraControllerPlugin::create_camera,
         utils::setup_example_scene,
     ));
 

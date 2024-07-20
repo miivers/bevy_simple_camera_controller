@@ -1,11 +1,10 @@
+use std::collections::HashMap;
+use bevy::prelude::*;
+use bevy_simple_camera_controller::prelude::{CameraAction, CameraControllerPlugin, CameraKeyBindings, CameraProperties};
+use crate::common::utils;
+
 mod common;
 
-use std::collections::HashMap;
-use bevy_simple_camera_controller::free_flight::*;
-use bevy_simple_camera_controller::camera_properties::CameraProperties;
-use bevy::prelude::*;
-use bevy_simple_camera_controller::key_binding::{CameraAction, CameraKeyBindings};
-use common::utils;
 
 fn main() {
     let mut app = App::new();
@@ -19,8 +18,11 @@ fn main() {
     app.add_plugins((
         DefaultPlugins,
         // Add camera plugin
-        FreeCameraPlugin {
+        CameraControllerPlugin {
+            initial_position: Default::default(),
             properties: CameraProperties{
+                input_enabled: true,
+                hide_cursor: true,
                 movement_speed: 5.0,
                 rotation_speed: 0.1,
                 grab_mouse: true,
@@ -32,8 +34,8 @@ fn main() {
     ));
 
     app.add_systems(Startup, (
-        FreeCameraPlugin::create_camera, // 2: Creates a default Camera3dBundle  (This is optionally, you can do this manually)
-        utils::setup_scene
+        CameraControllerPlugin::create_camera, // 2: Creates a default Camera3dBundle  (This is optionally, you can do this manually)
+        utils::setup_example_scene
     ));
 
     app.run();

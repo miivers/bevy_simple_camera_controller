@@ -11,12 +11,12 @@ use crate::controllers::rotation::update_rotation;
 use crate::controllers::teleport::{handle_teleport, Teleport};
 
 #[derive(Default)]
-pub struct FreeFlightCameraPlugin {
+pub struct CameraControllerPlugin {
     pub initial_position: InitialPosition,
     pub properties: CameraProperties,
 }
 
-impl FreeFlightCameraPlugin {
+impl CameraControllerPlugin {
     pub fn new(
         initial_position: InitialPosition,
         properties: CameraProperties
@@ -47,7 +47,7 @@ impl FreeFlightCameraPlugin {
     }
 }
 
-impl Plugin for FreeFlightCameraPlugin {
+impl Plugin for CameraControllerPlugin {
     fn build(&self, app: &mut App) {
         app.add_event::<CameraMovementEvents>();
         app.add_event::<CameraRotationEvents>();
